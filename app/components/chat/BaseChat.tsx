@@ -81,7 +81,17 @@ const ModelSelect = ({ chatStarted, model, provider, setProviderModel }: ModelSe
         const params = new URLSearchParams({ search: searchTerm });
         const response = await fetch(`/api/models?${params}`);
         const data: ModelInfo[] = await response.json();
-        setFilteredModels(data);
+        
+        // Filter out local models that aren't enabled
+        const enabledModels = data.filter(model => {
+          if (['Ollama', 'LMStudio', 'LocalAI'].includes(model.provider)) {
+            const localProviders = JSON.parse(localStorage.getItem('local-providers') || '{}');
+            return localProviders[model.provider]?.enabled;
+          }
+          return true;
+        });
+        
+        setFilteredModels(enabledModels);
       } catch (error) {
         console.error('Model search error:', error);
       } finally {

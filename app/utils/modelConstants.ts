@@ -8,7 +8,8 @@ export type Provider =
   | 'Deepseek'
   | 'TogetherAI'
   | 'Ollama'
-  | 'LMStudio';
+  | 'LMStudio'
+  | 'LocalAI';
 
 export type ModelInfo = {
   name: string;
@@ -351,13 +352,15 @@ async function fetchTogetherAIModels(): Promise<ModelInfo[]> {
 
 async function fetchOllamaModels(): Promise<ModelInfo[]> {
   try {
-    const baseUrl = import.meta.env.OLLAMA_BASE_URL || 'http://localhost:11434';
+    const baseUrl = import.meta.env.OLLAMA_API_BASE_URL || 'http://localhost:11434';
     const response = await fetch(`${baseUrl}/api/tags`);
     const data: any = await response.json();
-    return data.models.map((model: string) => ({
-      name: model,
-      label: model,
+    return data.models?.map((model: any) => ({
+      name: model.name,
+      label: model.name,
       provider: 'Ollama' as Provider,
+      inputPrice: 0,
+      outputPrice: 0,
     }));
   } catch (error) {
     return [];
@@ -369,10 +372,29 @@ async function fetchLMStudioModels(): Promise<ModelInfo[]> {
     const baseUrl = import.meta.env.LM_STUDIO_API_BASE_URL || 'http://localhost:1234/v1';
     const response = await fetch(`${baseUrl}/models`);
     const data: any = await response.json();
-    return data.map((model: any) => ({
+    return data.data?.map((model: any) => ({
       name: model.id,
-      label: model.display_name,
+      label: model.id,
       provider: 'LMStudio' as Provider,
+      inputPrice: 0,
+      outputPrice: 0,
+    }));
+  } catch (error) {
+    return [];
+  }
+}
+
+async function fetchLocalAIModels(): Promise<ModelInfo[]> {
+  try {
+    const baseUrl = import.meta.env.LOCALAI_API_BASE_URL || 'http://localhost:8080/v1';
+    const response = await fetch(`${baseUrl}/models`);
+    const data: any = await response.json();
+    return data.data?.map((model: any) => ({
+      name: model.id,
+      label: model.id,
+      provider: 'LocalAI' as Provider,
+      inputPrice: 0,
+      outputPrice: 0,
     }));
   } catch (error) {
     return [];
@@ -380,11 +402,12 @@ async function fetchLMStudioModels(): Promise<ModelInfo[]> {
 }
 
 async function initializeModelList(): Promise<void> {
-  const [openRouterModels, togetherAIModels, ollamaModels, lmStudioModels] = await Promise.all([
+  const [openRouterModels, togetherAIModels, ollamaModels, lmStudioModels, localAIModels] = await Promise.all([
     fetchOpenRouterModels(),
     fetchTogetherAIModels(),
     fetchOllamaModels(),
-    fetchLMStudioModels()
+    fetchLMStudioModels(),
+    fetchLocalAIModels()
   ]);
 
   MODEL_LIST = [
@@ -392,7 +415,8 @@ async function initializeModelList(): Promise<void> {
     ...openRouterModels,
     ...togetherAIModels,
     ...ollamaModels,
-    ...lmStudioModels
+    ...lmStudioModels,
+    ...localAIModels
   ];
 }
 

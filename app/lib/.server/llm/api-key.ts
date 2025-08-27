@@ -33,6 +33,8 @@ export function getBaseURL(cloudflareEnv: Env, provider: string) {
       return env.OLLAMA_API_BASE_URL || cloudflareEnv.OLLAMA_API_BASE_URL || 'http://localhost:11434';
     case 'LMStudio':
       return env.LM_STUDIO_API_BASE_URL || cloudflareEnv.LM_STUDIO_API_BASE_URL || 'http://localhost:1234/v1';
+    case 'LocalAI':
+      return env.LOCALAI_API_BASE_URL || cloudflareEnv.LOCALAI_API_BASE_URL || 'http://localhost:8080/v1';
     default:
       return "";
   }

@@ -10,4 +10,5 @@ interface Env {
 
   OLLAMA_API_BASE_URL: string;
   LM_STUDIO_API_BASE_URL: string;
+  LOCALAI_API_BASE_URL: string;
 }

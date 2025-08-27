@@ -89,6 +89,15 @@ export function getLMStudioModel(baseURL: string, model: string) {
   return lmStudio(model);
 }
 
+export function getLocalAIModel(baseURL: string, model: string) {
+  const localAI = createOpenAI({
+    baseURL: baseURL,
+    apiKey: 'not-needed'
+  });
+
+  return localAI(model);
+}
+
 export function getModel(provider: string, model: string, env: Env, apiKey?: string) {
   if (!apiKey) apiKey = getAPIKey(env, provider);
   const baseURL = getBaseURL(env, provider);
@@ -114,6 +123,8 @@ export function getModel(provider: string, model: string, env: Env, apiKey?: str
       return getOllamaModel(baseURL, model);
     case 'LMStudio':
       return getLMStudioModel(baseURL, model);
+    case 'LocalAI':
+      return getLocalAIModel(baseURL, model);
     default:
       return getAnthropicModel(apiKey, model);
   }
