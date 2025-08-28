@@ -1,5 +1,3 @@
-import { createOpenAI } from '@ai-sdk/openai';
-
 export interface LocalProvider {
   name: string;
   baseURL: string;
@@ -14,7 +12,7 @@ export const LOCAL_PROVIDERS: LocalProvider[] = [
     models: ['llama2', 'codellama', 'mistral', 'neural-chat']
   },
   {
-    name: 'LM Studio',
+    name: 'LMStudio',
     baseURL: 'http://localhost:1234/v1',
     models: ['local-model']
   },
@@ -24,13 +22,6 @@ export const LOCAL_PROVIDERS: LocalProvider[] = [
     models: ['gpt-3.5-turbo', 'gpt-4']
   }
 ];
-
-export function createLocalProvider(baseURL: string, apiKey?: string) {
-  return createOpenAI({
-    baseURL,
-    apiKey: apiKey || 'not-needed'
-  });
-}
 
 export async function detectLocalModels(baseURL: string): Promise<string[]> {
   try {

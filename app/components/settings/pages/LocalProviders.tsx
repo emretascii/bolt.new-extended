@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { IconButton } from '~/components/ui/IconButton';
-import { detectLocalModels, LOCAL_PROVIDERS, type LocalProvider } from '~/lib/.server/llm/providers/local';
+import { detectLocalModels, LOCAL_PROVIDERS, type LocalProvider } from '~/utils/localModels.client';
 
 interface LocalProviderConfig {
   enabled: boolean;
@@ -164,9 +164,9 @@ export const LocalProviders = () => {
       <div className="p-4 rounded-lg bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor">
         <h4 className="font-medium text-bolt-elements-textPrimary mb-2">Setup Instructions</h4>
         <div className="space-y-2 text-sm text-bolt-elements-textSecondary">
-          <p><strong>Ollama:</strong> Install from <a href="https://ollama.ai" target=\"_blank" className="text-bolt-elements-textPrimary underline">ollama.ai</a> and run <code className="bg-bolt-elements-code-background px-1 rounded">ollama serve</code></p>
-          <p><strong>LM Studio:</strong> Download from <a href="https://lmstudio.ai" target=\"_blank" className="text-bolt-elements-textPrimary underline">lmstudio.ai</a> and start the local server</p>
-          <p><strong>LocalAI:</strong> Follow setup instructions at <a href="https://localai.io" target=\"_blank" className="text-bolt-elements-textPrimary underline">localai.io</a></p>
+          <p><strong>Ollama:</strong> Install from <a href="https://ollama.ai" target="_blank" className="text-bolt-elements-textPrimary underline">ollama.ai</a> and run <code className="bg-bolt-elements-code-background px-1 rounded">ollama serve</code></p>
+          <p><strong>LM Studio:</strong> Download from <a href="https://lmstudio.ai" target="_blank" className="text-bolt-elements-textPrimary underline">lmstudio.ai</a> and start the local server</p>
+          <p><strong>LocalAI:</strong> Follow setup instructions at <a href="https://localai.io" target="_blank" className="text-bolt-elements-textPrimary underline">localai.io</a></p>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import { detectLocalModels } from '~/lib/.server/llm/providers/local';
+import { detectLocalModels } from '~/utils/localModels.client';
 
 interface LocalModelStatusProps {
   className?: string;
@@ -14,7 +14,7 @@ export const LocalModelStatus = ({ className }: LocalModelStatusProps) => {
     const checkConnections = async () => {
       const status: Record<string, boolean> = {};
       
-      for (const [providerName, config] of Object.entries(localProviders)) {
+      for (const [providerName, config] of Object.entries(localProviders as Record<string, any>)) {
         if (config.enabled && config.baseURL) {
           try {
             const models = await detectLocalModels(config.baseURL);
