@@ -64,15 +64,6 @@ export function getDeepseekModel(apiKey: string, model: string){
   return deepseek(model);
 }
 
-export function getTogetherAIModel(apiKey: string, model: string){
-  const togetherAI = createOpenAI({
-    baseURL: 'https://api.together.xyz/v1',
-    apiKey,
-  });
-
-  return togetherAI(model);
-}
-
 export function getOllamaModel(baseURL: string, model: string) {
   const ollama = createOllama({
     baseURL,
@@ -117,8 +108,6 @@ export function getModel(provider: string, model: string, env: Env, apiKey?: str
       return getOpenRouterModel(apiKey, model);
     case 'Deepseek':
       return getDeepseekModel(apiKey, model);
-    case 'TogetherAI':
-      return getTogetherAIModel(apiKey, model);
     case 'Ollama':
       return getOllamaModel(baseURL, model);
     case 'LMStudio':

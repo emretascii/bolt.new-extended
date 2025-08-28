@@ -6,7 +6,6 @@ interface Env {
   GROQ_API_KEY: string;
   OPEN_ROUTER_API_KEY: string;
   DEEPSEEK_API_KEY: string;
-  TOGETHER_AI_API_KEY: string;
 
   OLLAMA_API_BASE_URL: string;
   LM_STUDIO_API_BASE_URL: string;

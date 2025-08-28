@@ -20,8 +20,6 @@ export function getAPIKey(cloudflareEnv: Env, provider: string) {
       return env.OPEN_ROUTER_API_KEY || cloudflareEnv.OPEN_ROUTER_API_KEY;
     case 'Deepseek':
       return env.DEEPSEEK_API_KEY || cloudflareEnv.DEEPSEEK_API_KEY
-    case 'TogetherAI':
-      return env.TOGETHER_AI_API_KEY || cloudflareEnv.TOGETHER_AI_API_KEY
     default:
       return "";
   }

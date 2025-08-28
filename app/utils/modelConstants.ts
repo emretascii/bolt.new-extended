@@ -6,7 +6,6 @@ export type Provider =
   | 'Groq'
   | 'OpenRouter'
   | 'Deepseek'
-  | 'TogetherAI'
   | 'Ollama'
   | 'LMStudio'
   | 'LocalAI';
@@ -328,28 +327,6 @@ async function fetchOpenRouterModels(): Promise<ModelInfo[]> {
   }
 }
 
-async function fetchTogetherAIModels(): Promise<ModelInfo[]> {
-  try {
-    const response = await fetch('https://api.together.xyz/v1/models', {
-      headers: {
-        'Authorization': `Bearer ${import.meta.env.TOGETHER_AI_API_KEY}`
-      }
-    });
-    const data: any = await response.json();
-    return data.map((model: any) => ({
-      name: model.id,
-      label: model.display_name,
-      provider: 'TogetherAI' as Provider,
-      description: model.description,
-      inputPrice: model.pricing?.input,
-      outputPrice: model.pricing?.output,
-    }));
-  } catch (error) {
-    console.error('Error fetching TogetherAI models:', error);
-    return [];
-  }
-}
-
 async function fetchOllamaModels(): Promise<ModelInfo[]> {
   try {
     const baseUrl = import.meta.env.OLLAMA_API_BASE_URL || 'http://localhost:11434';
@@ -402,9 +379,8 @@ async function fetchLocalAIModels(): Promise<ModelInfo[]> {
 }
 
 async function initializeModelList(): Promise<void> {
-  const [openRouterModels, togetherAIModels, ollamaModels, lmStudioModels, localAIModels] = await Promise.all([
+  const [openRouterModels, ollamaModels, lmStudioModels, localAIModels] = await Promise.all([
     fetchOpenRouterModels(),
-    fetchTogetherAIModels(),
     fetchOllamaModels(),
     fetchLMStudioModels(),
     fetchLocalAIModels()
@@ -413,7 +389,6 @@ async function initializeModelList(): Promise<void> {
   MODEL_LIST = [
     ...STATIC_MODELS,
     ...openRouterModels,
-    ...togetherAIModels,
     ...ollamaModels,
     ...lmStudioModels,
     ...localAIModels
